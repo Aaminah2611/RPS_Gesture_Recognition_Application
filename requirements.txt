@@ -21,4 +21,4 @@ tensorflow==2.11.0
 tensorflow-estimator==2.11.0
 termcolor==2.3.0
 Werkzeug==0.15.4
-
+setuptools~=69.1.1
