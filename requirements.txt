@@ -1,6 +1,6 @@
 absl-py==2.1.0
 astor==0.4.0
-gast==1.62.0
+gast==0.5.4
 grpcio==1.62.0
 joblib==0.13.2
 Keras==2.11.0
