@@ -40,7 +40,7 @@ def get_model():
 # load images from the directory
 dataset = []
 for directory in os.listdir(IMG_SAVE_PATH):
-    path = os.path.join('C:\\Users\\Aamin\\OneDrive\\Desktop\\University\\Term 2\\IP\\Submissions\\game\\sample images',directory)
+    path = os.path.join('C:\\Users\Aamin\\OneDrive - Aston University\\University\\Term 2\\IP\\Submissions\\game\\sample images',directory)
     if not os.path.isdir(path):
         continue
     for item in os.listdir(path):
