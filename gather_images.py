@@ -28,7 +28,8 @@ except:
     exit(-1)
 
 IMG_SAVE_PATH = 'image_data'
-IMG_CLASS_PATH = os.path.join('C:\\Users\\Aamin\\OneDrive\\Desktop\\University\\Term 2\\IP\\Submissions\\game\\sample images', label_name)
+IMG_CLASS_PATH = os.path.join(
+    'C:\\Users\Aamin\\OneDrive - Aston University\\University\\Term 2\\IP\\Submissions\\game\\sample images', label_name)
 
 try:
     os.mkdir(IMG_SAVE_PATH)
@@ -73,7 +74,7 @@ while True:
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText(frame, "Collecting {}".format(count),
-            (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
+                (5, 50), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
     cv2.imshow("Collecting images", frame)
 
     k = cv2.waitKey(10)
