@@ -12,7 +12,7 @@ import random
 from keras.preprocessing.image import ImageDataGenerator
 
 
-IMG_SAVE_PATH = 'image_data'
+IMG_SAVE_PATH = '../image_data'
 
 CLASS_MAP = {
     "rock": 0,

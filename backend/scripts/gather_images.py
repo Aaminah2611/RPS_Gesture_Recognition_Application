@@ -27,7 +27,7 @@ except:
     print(desc)
     exit(-1)
 
-IMG_SAVE_PATH = 'image_data'
+IMG_SAVE_PATH = '../image_data'
 IMG_CLASS_PATH = os.path.join(
     'C:\\Users\Aamin\\OneDrive - Aston University\\University\\Term 2\\IP\\Submissions\\game\\sample images', label_name)
 

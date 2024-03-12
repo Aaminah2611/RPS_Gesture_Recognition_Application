@@ -38,7 +38,7 @@ def calculate_winner(move1, move2):
             return "Computer"
 
 
-model = load_model("rock-paper-scissors-model.keras")
+model = load_model("../models/rock-paper-scissors-model.keras")
 
 cap = cv2.VideoCapture(0)
 
