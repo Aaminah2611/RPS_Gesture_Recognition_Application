@@ -87,3 +87,4 @@ while True:
 print("\n{} image(s) saved to {}".format(count, IMG_CLASS_PATH))
 cap.release()
 cv2.destroyAllWindows()
+
