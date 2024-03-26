@@ -2,6 +2,7 @@ from keras.models import load_model
 import cv2
 import numpy as np
 from random import choice
+import os
 
 REV_CLASS_MAP = {
     0: "rock",

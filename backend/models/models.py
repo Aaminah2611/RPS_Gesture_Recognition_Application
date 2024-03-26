@@ -3,22 +3,26 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
 
-class User(Base):
+db = SQLAlchemy()
+
+class User(db.Model):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String(50), nullable=False)
-    password = Column(String(100), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
-class Game(Base):
+
+class Game(db.Model):
     __tablename__ = 'games'
 
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship('User', back_populates='games')
-    started_at = Column(TIMESTAMP, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    user = db.relationship('User', back_populates='games')
+    started_at = db.Column(db.TIMESTAMP, nullable=False)
 
-User.games = relationship('Game', back_populates='user')
+
+User.games = db.relationship('Game', back_populates='user')

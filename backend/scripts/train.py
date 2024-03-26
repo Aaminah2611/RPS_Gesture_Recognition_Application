@@ -11,7 +11,6 @@ import os
 import random
 from keras.preprocessing.image import ImageDataGenerator
 
-
 IMG_SAVE_PATH = '../image_data'
 
 CLASS_MAP = {
@@ -23,8 +22,10 @@ CLASS_MAP = {
 
 NUM_CLASSES = len(CLASS_MAP)
 
+
 def mapper(val):
     return CLASS_MAP[val]
+
 
 def get_model():
     model = Sequential([
@@ -37,10 +38,11 @@ def get_model():
     ])
     return model
 
+
 # load images from the directory
 dataset = []
 for directory in os.listdir(IMG_SAVE_PATH):
-    path = os.path.join('C:\\Users\Aamin\\OneDrive - Aston University\\University\\Term 2\\IP\\Submissions\\game\\sample images',directory)
+    path = os.path.join('image_data', directory)
     if not os.path.isdir(path):
         continue
     for item in os.listdir(path):
@@ -81,7 +83,7 @@ datagen = ImageDataGenerator(
 )
 
 # Generate augmented data batches from your existing dataset
-batch_size = 200 # Set batch size equal to the number of training samples
+batch_size = 200  # Set batch size equal to the number of training samples
 augmented_train_generator = datagen.flow(train_images, train_labels, batch_size=batch_size)
 
 # Define and compile the model
