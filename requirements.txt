@@ -6,11 +6,7 @@ joblib==0.13.2
 Keras==2.11.0
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.0.9
-<<<<<<< HEAD
-keras_squeezenet==0.4
-=======
-keras-squeezenet==0.4
->>>>>>> 516e14c3a6ddca2db033f1a5131baa776a2898a3
+keras-squeezenet==0.4  # Resolved conflict
 Markdown==3.4.4
 mock==3.0.5
 numpy==1.21.6
@@ -20,17 +16,13 @@ PyYAML==6.0.1
 scikit-learn==0.21.2
 scipy==1.7.3
 six==1.16.0
-<<<<<<< HEAD
-tensorboard==2.11.2
-=======
-tensorboard==2.11.12
->>>>>>> 516e14c3a6ddca2db033f1a5131baa776a2898a3
+tensorboard==2.11.12  # Resolved conflict
 tensorflow==2.11.0
 tensorflow-estimator==2.11.0
 termcolor==2.3.0
 Werkzeug==0.15.4
-<<<<<<< HEAD
-setuptools==69.1.1
-=======
-setuptools~=69.1.1
->>>>>>> 516e14c3a6ddca2db033f1a5131baa776a2898a3
+setuptools~=69.1.1  # Resolved conflict
+
+Flask~=2.2.5
+SQLAlchemy~=2.0.28
+requests~=2.31.0
