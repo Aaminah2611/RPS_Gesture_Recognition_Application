@@ -136,14 +136,14 @@ finally:
 
 # Create instances of mediator queue and game logic for AI
 ai_mediator = Queue()
-ai_logic = AiLogic(ai_mediator)
+ai_logic = AiLogic()
 
 # Create instances of mediator queue and game logic for player
 player_mediator = Queue()
 player_logic = PlayerLogic(player_mediator)
 
 # Define model and capture device outside of routes
-model = load_model("../models/rock-paper-scissors-model.keras")
+model = load_model("../backend/models/rock-paper-scissors-model.keras")
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1200)
@@ -200,7 +200,7 @@ def handle_move():
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', game_state=game.game_state)
+    return render_template('index.html', game_state=GameThread.game_state)
 
 
 # Define Flask routes
