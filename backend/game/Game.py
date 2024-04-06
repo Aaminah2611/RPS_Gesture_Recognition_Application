@@ -15,7 +15,7 @@ class GameState:
 
 
 # Separate background thread to run the game independently of Flask.
-class Game(Thread):
+class GameThread(Thread):
     _game_state: GameState
 
     @property

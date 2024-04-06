@@ -1,23 +1,19 @@
-<!--&lt;!&ndash; index.html &ndash;&gt;-->
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>My App</title>-->
-<!--    <link rel="stylesheet" href="style.css">-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>My App</h1>-->
-<!--    <script src="script.js"></script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Motion Detection - Rock Paper Scissors</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <h2>Choose your opponent:</h2>
+    <form action="/play_ai" method="get">
+        <button type="submit">Player v AI</button>
+    </form>
+    <form action="/play_player" method="get">
+        <button type="submit">Player v Player</button>
+    </form>
 
     <!-- auto refresh every 5sec to see the game state -->
     <meta http-equiv="refresh" content="5">
@@ -28,7 +24,7 @@
 
     <title>Game</title>
 </head>
-<body>
+</body>
 
 <div class="container my-5">
     <div class="p-5">
