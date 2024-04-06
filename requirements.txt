@@ -22,7 +22,9 @@ tensorflow-estimator==2.11.0
 termcolor==2.3.0
 Werkzeug==0.15.4
 setuptools~=69.1.1  # Resolved conflict
-
 Flask~=2.2.5
+Flask-SQLAlchemy~=3.0.5
 SQLAlchemy~=2.0.28
 requests~=2.31.0
+mysql-connector-python~=8.0.33
+PyMySQL~=1.1.0
