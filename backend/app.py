@@ -73,3 +73,4 @@ if __name__ == "__main__":
     game.start()
     # Run the Flask application
     app.run(debug=True)
+
