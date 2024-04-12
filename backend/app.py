@@ -67,9 +67,9 @@ def create_game():
     return jsonify({'message': 'Game created successfully'})
 
 
-@app.route('/matchmaking', methods=['POST'])
-def matchmaking():
-    return 'Players matched successfully'
+# @app.route('/matchmaking', methods=['POST'])
+# def matchmaking():
+#     return 'Players matched successfully'
 
 
 @app.route('/game/move', methods=['POST'])
@@ -77,13 +77,13 @@ def handle_move():
     return 'Move handled successfully'
 
 
-@app.route('/game/winner', methods=['POST'])
-def determine_winner():
-    return 'Winner determined successfully'
+# @app.route('/game/winner', methods=['POST'])
+# def determine_winner():
+#     return 'Winner determined successfully'
 
-
-@app.route('/player_vs_player', methods=['POST'])
-def player_vs_player():
+#
+# @app.route('/player_vs_player', methods=['POST'])
+# def player_vs_player():
     return 'Player vs Player functionality added successfully'
 
 
