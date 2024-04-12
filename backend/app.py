@@ -1,8 +1,7 @@
 from flask import Flask, render_template, redirect, request, jsonify
 from game import Game
 from queue import Queue
-from database import db, User, Game
-
+from database import db, configure_db, User, Game
 
 # Create instances of mediator queue and game logic
 mediator = Queue()
@@ -11,6 +10,8 @@ game = Game.Thread(mediator)
 # Create a Flask application
 app = Flask(__name__)
 
+# Configure the database connection
+configure_db(app)
 
 # Define Flask routes
 @app.route('/')
@@ -47,7 +48,7 @@ def create_user():
 @app.route('/create_game', methods=['POST'])
 def create_game():
     user_id = request.json.get('user_id')
-    new_game = Game(user_id=user_id)
+    new_game = Game(user_id_1=user_id)
     db.session.add(new_game)
     db.session.commit()
     return jsonify({'message': 'Game created successfully'})
@@ -73,4 +74,3 @@ if __name__ == "__main__":
     game.start()
     # Run the Flask application
     app.run(debug=True)
-

@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 from random import choice
 
+
 # Holds the game state. Flask will get this and use it to display things on the UI
 @dataclasses.dataclass
 class GameState:
@@ -94,7 +95,8 @@ class GameThread(Thread):
         if self._game_state.user_move_name != "none":
             if self._game_state.user_wins < 2 and self._game_state.computer_wins < 2:
                 self._game_state.computer_move_name = choice(['rock', 'paper', 'scissors'])
-                self._game_state.winner = calculate_winner(self._game_state.user_move_name, self._game_state.computer_move_name)
+                self._game_state.winner = calculate_winner(self._game_state.user_move_name,
+                                                           self._game_state.computer_move_name)
                 if self._game_state.winner == "User":
                     self._game_state.user_wins += 1
                 elif self._game_state.winner == "Computer":
@@ -105,7 +107,8 @@ class GameThread(Thread):
             self._game_state.computer_move_name = "none"
             self._game_state.winner = "Waiting..."
 
-        display_moves(frame, self._game_state.user_move_name, self._game_state.computer_move_name, self._game_state.winner)
+        display_moves(frame, self._game_state.user_move_name, self._game_state.computer_move_name,
+                      self._game_state.winner)
 
     def stop_camera(self):
         self.cap.release()
@@ -119,8 +122,10 @@ REV_CLASS_MAP = {
     3: "none"
 }
 
+
 def mapper(val):
     return REV_CLASS_MAP[val]
+
 
 def calculate_winner(move1, move2):
     if move1 == move2:
@@ -134,6 +139,7 @@ def calculate_winner(move1, move2):
 
     if move1 == "scissors":
         return "User" if move2 == "paper" else "Computer"
+
 
 def display_moves(frame, user_move_name, computer_move_name, winner):
     # Display computer's move image
