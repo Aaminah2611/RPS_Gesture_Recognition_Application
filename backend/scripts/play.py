@@ -108,7 +108,7 @@ def play_game(cap, model):
 
 
 if __name__ == "__main__":
-    model = load_model("../models/rock-paper-scissors-model.keras")
+    model = load_model("../../keras/rock-paper-scissors-model.keras")
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1200)

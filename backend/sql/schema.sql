@@ -1,21 +1,19 @@
 CREATE TABLE User (
-    id INTEGER PRIMARY KEY,
-    username VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255)
 );
 
 CREATE TABLE Game (
-    id INTEGER PRIMARY KEY,
-    started_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) NOT NULL DEFAULT 'pending'
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status ENUM('pending', 'ongoing', 'finished') DEFAULT 'pending'
 );
 
 CREATE TABLE Participant (
-    id INTEGER PRIMARY KEY,
-    game_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    gesture VARCHAR(50),
-    player_number INTEGER,
-    FOREIGN KEY (game_id) REFERENCES Game(id),
-    FOREIGN KEY (user_id) REFERENCES User(id)
+  user_id INT REFERENCES User(id),
+  game_id INT REFERENCES Game(id),
+  role ENUM('player1', 'player2'),
+  PRIMARY KEY (user_id, game_id, role),
+  gesture VARCHAR(255) DEFAULT NULL
 );

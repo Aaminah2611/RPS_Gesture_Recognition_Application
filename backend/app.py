@@ -3,9 +3,9 @@ import os
 from flask import Flask, render_template, redirect, request, jsonify
 
 from backend.game.Game import GameThread
-from game import Game
+from backend.game import Game
 from queue import Queue
-from database import db, configure_db, User, Game
+from backend.database import db, configure_db, User, Game, Participant
 
 # Create instances of mediator queue and game logic
 mediator = Queue()
@@ -16,9 +16,11 @@ app = Flask(__name__)
 
 app.template_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'))
 
-
 # Configure the database connection
 configure_db(app)
+
+# Start the game thread
+game.start()
 
 
 # Define Flask routes
@@ -49,22 +51,23 @@ def stop():
 @app.route('/create_user', methods=['POST'])
 def create_user():
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.form.get()
         username = data.get('username')
         password = data.get('password')
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({'message': 'User created successfully'})
+        return {'message': 'User created successfully'}
 
 
 @app.route('/create_game', methods=['POST'])
 def create_game():
-    user_id = request.json.get('user_id')
-    new_game = Game(user_id=user_id)
+    user_id = request.form.get('user_id')
+    new_game = Game()
+    Participant(user_id, new_game)
     db.session.add(new_game)
     db.session.commit()
-    return jsonify({'message': 'Game created successfully'})
+    return {'message': 'Game created successfully'}
 
 
 # @app.route('/matchmaking', methods=['POST'])
@@ -84,11 +87,9 @@ def handle_move():
 #
 # @app.route('/player_vs_player', methods=['POST'])
 # def player_vs_player():
-    return 'Player vs Player functionality added successfully'
+#   return 'Player vs Player functionality added successfully'
 
 
 if __name__ == "__main__":
-    # Start the game thread
-    game.start()
     # Run the Flask application
     app.run(debug=True)

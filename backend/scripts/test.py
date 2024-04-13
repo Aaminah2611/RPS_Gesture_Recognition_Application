@@ -17,7 +17,7 @@ def mapper(val):
     return REV_CLASS_MAP[val]
 
 
-model = load_model("../models/rock-paper-scissors-model.keras")
+model = load_model("../../keras/rock-paper-scissors-model.keras")
 
 # prepare the image
 img = cv2.imread("C:/Users/Aamin/OneDrive/Desktop/test 4 scissors.jpg")

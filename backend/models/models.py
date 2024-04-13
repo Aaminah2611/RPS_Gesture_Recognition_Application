@@ -6,6 +6,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False, unique=True)
@@ -18,13 +19,9 @@ class User(db.Model):
 
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
     started_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status = db.Column(db.String(20), nullable=False, default='pending')
-
-    user_1 = db.relationship('User', foreign_keys=[user_id_1], backref='games_as_user_1')
-    user_2 = db.relationship('User', foreign_keys=[user_id_2], backref='games_as_user_2', remote_side=[id])
 
     participants = db.relationship('Participant', backref='game', lazy=True)
 
