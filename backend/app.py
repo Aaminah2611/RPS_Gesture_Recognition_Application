@@ -1,8 +1,6 @@
-import base64
 import os
-from flask import Flask, render_template, redirect, request, jsonify, Response
-import cv2
-import numpy as np
+
+from flask import Flask, render_template, redirect, request, jsonify
 
 from backend.game.Game import GameThread
 from backend.game import Game
@@ -71,31 +69,29 @@ def create_game():
     user.participants.append(new_participant)
     new_game.participants.append(new_participant)
     db.session.add(new_game)
+    # db.session.add(new_participant)
     db.session.commit()
     return {'message': 'Game created successfully'}
 
 
-@app.route('/video_feed', methods=['POST'])
-def video_feed():
-    # Get the frame sent by the client
-    frame_data = request.json.get('image_data')
-    frame_bytes = frame_data.split(',')[1].encode('utf-8')
-    frame_array = np.frombuffer(base64.b64decode(frame_bytes), dtype=np.uint8)
-    frame = cv2.imdecode(frame_array, cv2.IMREAD_COLOR)
-
-    # Process the frame (Example: Convert to grayscale)
-    processed_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    # Perform any additional processing here...
-
-    # Return the processed frame as a response
-    ret, jpeg = cv2.imencode('.jpg', processed_frame)
-    return Response(response=jpeg.tobytes(), status=200, mimetype='image/jpeg')
+# @app.route('/matchmaking', methods=['POST'])
+# def matchmaking():
+#     return 'Players matched successfully'
 
 
 @app.route('/game/move', methods=['POST'])
 def handle_move():
     return 'Move handled successfully'
+
+
+# @app.route('/game/winner', methods=['POST'])
+# def determine_winner():
+#     return 'Winner determined successfully'
+
+#
+# @app.route('/player_vs_player', methods=['POST'])
+# def player_vs_player():
+#   return 'Player vs Player functionality added successfully'
 
 
 if __name__ == "__main__":

@@ -9,7 +9,6 @@ from keras.models import load_model
 import cv2
 import numpy as np
 from random import choice
-import keras_squeezenet
 
 
 # Holds the game state. Flask will get this and use it to display things on the UI
@@ -36,6 +35,10 @@ class GameThread(Thread):
         super().__init__()
         self.mediator = mediator
         self._game_state = GameState(game_running=False)
+        self.model = load_model("../keras/rock-paper-scissors-model.keras")
+        self.cap = cv2.VideoCapture(0)
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1200)
 
     # Called when the Thread is started
     def run(self):
@@ -46,10 +49,6 @@ class GameThread(Thread):
         os.kill(os.getpid(), signal.SIGINT)
 
     def game_loop(self):
-        self.model = load_model("../keras/rock-paper-scissors-model.keras")
-        self.cap = cv2.VideoCapture(0)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1200)
         while True:
             next_command = self.mediator.get()
 
@@ -59,7 +58,6 @@ class GameThread(Thread):
             if next_command == 'r':
                 self._game_state = GameState()
             elif next_command == 'q':
-                self.stop_camera()
                 # break the loop
                 break
 
