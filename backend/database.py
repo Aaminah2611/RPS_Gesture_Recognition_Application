@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from models import User, Game
+from backend.models.models import User, Game, Participant
 
 db = SQLAlchemy()
 
