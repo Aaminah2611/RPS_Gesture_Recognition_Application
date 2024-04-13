@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, request, jsonify
+from flask import Flask, render_template, redirect, request
 
 from backend.game.Game import GameThread
 from backend.game import Game
@@ -63,13 +63,13 @@ def create_user():
 @app.route('/create_game', methods=['POST'])
 def create_game():
     user_id = request.form.get('user_id')
-    user = db.session.query(User).get(user_id)
+    user = db.session.get(User, user_id)
     new_game = Game()
     new_participant = Participant()
     user.participants.append(new_participant)
     new_game.participants.append(new_participant)
     db.session.add(new_game)
-    db.session.add(new_participant)
+    # db.session.add(new_participant)
     db.session.commit()
     return {'message': 'Game created successfully'}
 
