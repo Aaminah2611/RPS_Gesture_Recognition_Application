@@ -150,15 +150,17 @@ def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2
 
         # predict the winner (player1 vs player2)
         if winner != GESTURE_NONE:
-            if player1_wins < 2 and player2_wins < 2:
-                if winner == PLAYER_1_ID:
-                    player1_wins += 1
-                elif winner == PLAYER_2_ID:
-                    player2_wins += 1
-            else:
-                winner = f"{PLAYER_1_ID} Wins!" \
-                    if player1_wins == 2 else f"{PLAYER_2_ID} Wins!" \
-                    if player2_wins == 2 else "Tie"
+            print(f"player1 = {player1_gesture} / player2 = {player2_gesture}")
+
+            # if player1_wins < 2 and player2_wins < 2:
+            #     if winner == PLAYER_1_ID:
+            #         player1_wins += 1
+            #     elif winner == PLAYER_2_ID:
+            #         player2_wins += 1
+            # else:
+            #     winner = f"{PLAYER_1_ID} Wins!" \
+            #         if player1_wins == 2 else f"{PLAYER_2_ID} Wins!" \
+            #         if player2_wins == 2 else "Tie"
         else:
             winner = "Waiting..."
 
