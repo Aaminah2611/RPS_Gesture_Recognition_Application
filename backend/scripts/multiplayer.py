@@ -50,8 +50,10 @@ class PlayerFrame:
         self._frame = frame
         self._player_id = player_id
 
-    def add_moves(self, user_move_name, opponent_move_name, winner):
+    def display_moves(self, user_move_name, opponent_move_name, winner):
         # Display computer's move image
+        self._frame = cv2.resize(self._frame, (600, 500))  # Adjust dimensions as needed
+
         icon_path = f"images/{opponent_move_name}.png"
         icon = cv2.imread(icon_path)
         if icon is not None and opponent_move_name != GESTURE_NONE:

@@ -31,7 +31,7 @@ def calculate_winner(move1, move2):
 
 def display_moves(frame, user_move_name, computer_move_name, winner):
     # Display computer's move image
-    icon_path = f"images/{computer_move_name}.png"
+    icon_path = f"backend/images/{computer_move_name}.png"
     icon = cv2.imread(icon_path)
     if icon is not None and computer_move_name != "none":
         icon = cv2.resize(icon, (300, 300))
