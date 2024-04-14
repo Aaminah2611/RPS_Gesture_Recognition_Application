@@ -46,37 +46,14 @@ def calculate_winner(move1: str, move2: str) -> str:
 
 
 class PlayerFrame:
+
+    @property
+    def frame(self):
+        return self._frame
+
     def __init__(self, frame, player_id):
         self._frame = frame
         self._player_id = player_id
-
-    def display_moves(self, user_move_name, opponent_move_name, winner):
-        # Display computer's move image
-        self._frame = cv2.resize(self._frame, (600, 500))  # Adjust dimensions as needed
-
-        icon_path = f"images/{opponent_move_name}.png"
-        icon = cv2.imread(icon_path)
-        if icon is not None and opponent_move_name != GESTURE_NONE:
-            icon = cv2.resize(icon, (300, 300))
-            self._frame[100:400, 600:900] = icon
-        elif opponent_move_name != GESTURE_NONE:
-            print("Error: Could not load image for", opponent_move_name)
-
-        # Display the information
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(self._frame, f"Your Move: {user_move_name}", (50, 70), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
-        cv2.putText(self._frame, f"Opponent's Move: {opponent_move_name}", (550, 70), font, 1, (255, 255, 255), 2,
-                    cv2.LINE_AA)
-
-        # Display "Winner" at the bottom center
-        text_size = cv2.getTextSize(f"Winner: {winner}", font, 2, 4)[0]
-        text_width = text_size[0]
-        text_height = text_size[1]
-        text_x = (self._frame.shape[1] - text_width) // 2
-        text_y = self._frame.shape[0] - 50
-        cv2.putText(self._frame, f"Winner: {winner}", (text_x, text_y), font, 2, (0, 0, 255), 4, cv2.LINE_AA)
-
-        cv2.imshow(self._player_id, self._frame)
 
     def get_img(self):
         # extract the region of image within the user rectangle
@@ -86,12 +63,34 @@ class PlayerFrame:
         return img
 
 
+class GameFrame:
+    def __init__(self, player1_frame: PlayerFrame, player2_frame: PlayerFrame):
+        self._frame = np.concatenate((player1_frame.frame, player2_frame.frame), axis=1)
+
+    def display_moves(self, player_1_move_name, player_2_move_name, winner):
+        # Display the information
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(self._frame, f"Player_1_Move: {player_1_move_name}", (50, 70), font, 1, (255, 255, 255), 2,
+                    cv2.LINE_AA)
+        cv2.putText(self._frame, f"Player_2_Move: {player_2_move_name}", (550, 70), font, 1, (255, 255, 255), 2,
+                    cv2.LINE_AA)
+
+        # Display "Winner" at the bottom center
+        text_size = cv2.getTextSize(f"Winner: {winner}", font, 2, 4)[0]
+        text_width = text_size[0]
+        text_height = text_size[1]
+        text_x = (self._frame.shape[1] - text_width) // 2
+        text_y = self._frame.shape[0] - 50
+        cv2.putText(self._frame, f"Winner: {winner}", (text_x, text_y), font, 2, (0, 0, 255), 4, cv2.LINE_AA)
+        cv2.imshow("Rock, Paper, Scissors", self._frame)
+
+
 class PlayerCapture:
     def __init__(self, camera_number: int, player_id):
         self._camera_number = camera_number
         self._player_id = player_id
         self._cap = cv2.VideoCapture(camera_number)
-        self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
+        self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, 600)
         self._cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1200)
 
     def read(self) -> Optional[PlayerFrame]:
@@ -107,8 +106,8 @@ class PlayerCapture:
             # Rectangle for this player (left side)
             cv2.rectangle(frame, (100, 100), (400, 400), (255, 255, 255), 2)
 
-            # Rectangle for other player (right side)
-            cv2.rectangle(frame, (600, 100), (900, 400), (255, 255, 255), 2)
+            # # Rectangle for other player (right side)
+            # cv2.rectangle(frame, (600, 100), (900, 400), (255, 255, 255), 2)
 
             player_frame = PlayerFrame(frame, self._player_id)
 
@@ -130,13 +129,6 @@ class RockPaperScissorsModel:
         return mapper(move_code)
 
 
-def decide_computer_move(user_move_name: str) -> str:
-    if user_move_name != GESTURE_NONE:
-        return choice([GESTURE_ROCK, GESTURE_PAPER, GESTURE_SCISSORS])
-    else:
-        return GESTURE_NONE
-
-
 def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2_cap: PlayerCapture):
     player1_wins = 0
     player2_wins = 0
@@ -149,6 +141,8 @@ def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2
         player2_frame = player2_cap.read()
         if player2_frame is None:
             continue
+
+        game_frame = GameFrame(player1_frame, player2_frame)
 
         player1_gesture = model.predict_gesture(player1_frame)
         player2_gesture = model.predict_gesture(player2_frame)
@@ -168,8 +162,7 @@ def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2
         else:
             winner = "Waiting..."
 
-        player1_frame.display_moves(player1_gesture, player2_gesture, winner)
-        player2_frame.display_moves(player2_gesture, player1_gesture, winner)
+        game_frame.display_moves(player1_gesture, player2_gesture, winner)
 
         k = cv2.waitKey(20)
         if k == ord('q'):
@@ -181,13 +174,13 @@ def main():
     player1_cap = PlayerCapture(camera_number=PLAYER_1_CAMERA, player_id=PLAYER_1_ID)
     player2_cap = PlayerCapture(camera_number=PLAYER_2_CAMERA, player_id=PLAYER_2_ID)
 
-    play_game(model, player1_cap, player2_cap)
-
-    player1_cap.release()
-    player2_cap.release()
-    cv2.destroyAllWindows()
+    try:
+        play_game(model, player1_cap, player2_cap)
+    finally:
+        player1_cap.release()
+        player2_cap.release()
+        cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
     main()
-
