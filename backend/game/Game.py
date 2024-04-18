@@ -35,7 +35,7 @@ class GameThread(Thread):
         super().__init__()
         self.mediator = mediator
         self._game_state = GameState(game_running=False)
-        self.model = load_model("../../keras/rock-paper-scissors-model.keras")
+        self.model = load_model("../keras/rock-paper-scissors-model.keras")
         self.cap = cv2.VideoCapture(0)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1200)

@@ -20,18 +20,18 @@ def calculate_winner(move1, move2):
         return "Tie"
 
     if move1 == "rock":
-        return "User" if move2 == "scissors" else "Computer"
+        return "Human" if move2 == "scissors" else "Computer"
 
     if move1 == "paper":
-        return "User" if move2 == "rock" else "Computer"
+        return "Human" if move2 == "rock" else "Computer"
 
     if move1 == "scissors":
-        return "User" if move2 == "paper" else "Computer"
+        return "Human" if move2 == "paper" else "Computer"
 
 
-def display_moves(frame, user_move_name, computer_move_name, winner):
+def display_moves(frame, human_move_name, computer_move_name, winner):
     # Display computer's move image
-    icon_path = f"backend/images/{computer_move_name}.png"
+    icon_path = f"../images/{computer_move_name}.png"
     icon = cv2.imread(icon_path)
     if icon is not None and computer_move_name != "none":
         icon = cv2.resize(icon, (300, 300))
@@ -41,7 +41,7 @@ def display_moves(frame, user_move_name, computer_move_name, winner):
 
     # Display the information
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(frame, f"Your Move: {user_move_name}", (50, 70), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.putText(frame, f"Your Move: {human_move_name}", (50, 70), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(frame, f"Computer's Move: {computer_move_name}", (550, 70), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
     # Display "Winner" at the bottom center
@@ -54,7 +54,7 @@ def display_moves(frame, user_move_name, computer_move_name, winner):
 
 
 def play_game(cap, model):
-    user_wins = 0
+    human_wins = 0
     computer_wins = 0
 
     while True:
@@ -64,13 +64,13 @@ def play_game(cap, model):
 
         frame = cv2.flip(frame, 1)
 
-        # Rectangle for user to play (left side)
+        # Rectangle for Human to play (left side)
         cv2.rectangle(frame, (100, 100), (400, 400), (255, 255, 255), 2)
 
         # Rectangle for computer to play (right side)
         cv2.rectangle(frame, (600, 100), (900, 400), (255, 255, 255), 2)
 
-        # extract the region of image within the user rectangle
+        # extract the region of image within the Human rectangle
         roi = frame[100:400, 100:400]
         img = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (227, 227))
@@ -78,24 +78,24 @@ def play_game(cap, model):
         # predict the move made
         pred = model.predict(np.array([img]))
         move_code = np.argmax(pred[0])
-        user_move_name = mapper(move_code)
+        human_move_name = mapper(move_code)
 
         # predict the winner (human vs computer)
-        if user_move_name != "none":
-            if user_wins < 2 and computer_wins < 2:
+        if human_move_name != "none":
+            if human_wins < 2 and computer_wins < 2:
                 computer_move_name = choice(['rock', 'paper', 'scissors'])
-                winner = calculate_winner(user_move_name, computer_move_name)
-                if winner == "User":
-                    user_wins += 1
+                winner = calculate_winner(human_move_name, computer_move_name)
+                if winner == "Human":
+                    human_wins += 1
                 elif winner == "Computer":
                     computer_wins += 1
             else:
-                winner = "User Wins!" if user_wins == 2 else "Computer Wins!" if computer_wins == 2 else "Tie"
+                winner = "Human Wins!" if human_wins == 2 else "Computer Wins!" if computer_wins == 2 else "Tie"
         else:
             computer_move_name = "none"
             winner = "Waiting..."
 
-        display_moves(frame, user_move_name, computer_move_name, winner)
+        display_moves(frame, human_move_name, computer_move_name, winner)
 
         cv2.imshow("Rock Paper Scissors", frame)
 

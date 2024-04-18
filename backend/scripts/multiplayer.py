@@ -130,8 +130,7 @@ class RockPaperScissorsModel:
 
 
 def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2_cap: PlayerCapture):
-    player1_wins = 0
-    player2_wins = 0
+
 
     while True:
         player1_frame = player1_cap.read()
