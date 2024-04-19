@@ -1,8 +1,5 @@
 # FYP_Motion_Detection
 
-https://youtu.be/0uSA3xyXlwM [Link to tutorial video]
-
-An AI to play the Rock Paper Scissors game
 
 ## Requirements
 - Python 3
@@ -12,57 +9,56 @@ An AI to play the Rock Paper Scissors game
 
 ___________________________________________________
 
-## Set up instructions
-1. Clone the repo.
+## Installation Guide
+
+1. Clone the repo:
 ```sh
 $ git clone https://github.com/Aaminah2611/FYP_Motion_Detection.git
+```
+
+2. Navigate to the directory:
+```sh
 $ cd rock-paper-scissors
 ```
-_____________________________________________________
 
-2. Install the dependencies
+4. Install dependencies
 ```sh
 $ pip install -r requirements.txt
 ```
 
-___________________________________________________
+6. Edit source files
 
-3. Edit source files
-
-Navigate to:
+6.1 Navigate to:
 ```sh
 venv / Lib / keras_squeezenet/squeezenet.py
 ```
 
-In order to fix the following error complete step 3.1 below:
-
+Error:
 ```sh
 ImportError: cannot import name '_obtain_input_shape' from 'keras.applications.imagenet_utils
 ```
 
-3.1. change this line of code: 
+change this line of code: 
 ```sh
 from keras.applications.imagenet_utils import _obtain_input_shape
 ```
 
-to this instead: 
+[Fix] to this instead: 
 ```sh
 from keras_applications.imagenet_utils import _obtain_input_shape
 ```
-//
 
-In order to fix the following error complete step 3.2 & 3.3 below:
-
+6.2 Error:
 ```sh
 ImportError: cannot import name 'warnings' from 'keras.layers'
 ```
 
-3.2. Remove the word 'warnings' from the following line of code:
+Fix: Remove the word 'warnings' from the following line of code:
 ```sh
 from keras.layers import Input, Convolution2D, MaxPooling2D, Activation, concatenate, Dropout, warnings
 ```
 
-3.3. remove this if statement:
+6.3 remove this if statement:
 ```sh
         if K.image_data_format() == 'channels_first':
 
@@ -76,48 +72,30 @@ from keras.layers import Input, Convolution2D, MaxPooling2D, Activation, concate
                               'your Keras config '
                               'at ~/.keras/keras.json.')
 ```
-
-//
-
-In order to fix the following error complete step 3.4 below:
-
+6.4 Error:
 ```sh
 ModuleNotFoundError: No module named 'keras.engine.topology'
 ```
 
-3.4. Comment out this import: 
+Comment out this import: 
 ```sh
 # from keras.engine.topology import get_source_inputs
 ```
 
-add this new import instead:
+[Fix] add this new import instead:
 ```sh
 from keras.utils import get_source_inputs
 ```
 
-__________________________________________________
+Ensure machine learning model is present.
+Model should be titled: ```Rock-Paper-Scissors.keras```, and should be in the ```Keras``` directory
 
-4. Gather Images for each gesture (rock, paper and scissors and None):
-In this example, we gather 200 images for the "rock" gesture
-```sh
-$ py gather_images.py rock 200
-```
-___________________________________________________
-5. Train the model
-```sh
-$ py train.py
-```
-__________________________________________________
-
-6. Test the model on some images
-```sh
-$ py test.py <path_to_test_image>
-```
-____________________________________________________
-
-7. Play the game with your computer!
+Play Singeplayer mode:
 ```sh
 $ py singleplayer.py
 ```
 
-
+Play Multiplayer mode:
+```sh
+$ py multiplayer.py
+```
