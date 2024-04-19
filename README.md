@@ -117,7 +117,7 @@ ____________________________________________________
 
 7. Play the game with your computer!
 ```sh
-$ py play.py
+$ py singleplayer.py
 ```
 
 
