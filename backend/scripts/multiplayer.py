@@ -4,6 +4,7 @@ import numpy as np
 from random import choice
 from time import sleep
 from typing import Optional
+import mysql.connector
 
 GESTURE_ROCK = "rock"
 GESTURE_PAPER = "paper"
@@ -20,8 +21,8 @@ REV_CLASS_MAP = {
 PLAYER_1_CAMERA = 0
 PLAYER_2_CAMERA = 1
 
-PLAYER_1_ID = "Player 1"
-PLAYER_2_ID = "Player 2"
+PLAYER_1_ID = 1
+PLAYER_2_ID = 2
 
 
 def mapper(val: int) -> str:
@@ -129,8 +130,41 @@ class RockPaperScissorsModel:
         return mapper(move_code)
 
 
-def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2_cap: PlayerCapture):
+def update_database(game_id, winner):
+    # Connect to the MySQL database
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="3rQ1eq0z1TLN",
+            database="game_db"
+        )
 
+        cursor = conn.cursor()
+
+        # Construct the SQL query to update the database with the winner
+        update_query = "UPDATE Game SET status = 'finished', winner = %s WHERE id = %s"
+        cursor.execute(update_query, (winner, game_id))
+
+        # Commit the transaction
+        conn.commit()
+        print("Database updated successfully with the winner!")
+
+    except mysql.connector.Error as e:
+        print("Error updating database:", e)
+
+    finally:
+        # Close the cursor and connection
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2_cap: PlayerCapture):
+    this_game_id = None
+    game_state = "Running"
+    winner = "none"
 
     while True:
         player1_frame = player1_cap.read()
@@ -141,33 +175,59 @@ def play_game(model: RockPaperScissorsModel, player1_cap: PlayerCapture, player2
         if player2_frame is None:
             continue
 
+        if this_game_id is None:
+            this_game_id = insert_new_game()
+
         game_frame = GameFrame(player1_frame, player2_frame)
 
         player1_gesture = model.predict_gesture(player1_frame)
         player2_gesture = model.predict_gesture(player2_frame)
-        winner = calculate_winner(player1_gesture, player2_gesture)
 
         # predict the winner (player1 vs player2)
-        if winner != GESTURE_NONE:
-            print(f"player1 = {player1_gesture} / player2 = {player2_gesture}")
+        if game_state == "Running":
+            winner = calculate_winner(player1_gesture, player2_gesture)
 
-            # if player1_wins < 2 and player2_wins < 2:
-            #     if winner == PLAYER_1_ID:
-            #         player1_wins += 1
-            #     elif winner == PLAYER_2_ID:
-            #         player2_wins += 1
-            # else:
-            #     winner = f"{PLAYER_1_ID} Wins!" \
-            #         if player1_wins == 2 else f"{PLAYER_2_ID} Wins!" \
-            #         if player2_wins == 2 else "Tie"
-        else:
-            winner = "Waiting..."
+            if winner != GESTURE_NONE:
+                print(f"player1 = {player1_gesture} / player2 = {player2_gesture}")
+                game_state = "Finished"
+                update_database(this_game_id, winner)
+                this_game_id = None
+
+            else:
+                winner = "Waiting..."
 
         game_frame.display_moves(player1_gesture, player2_gesture, winner)
 
         k = cv2.waitKey(20)
         if k == ord('q'):
             return
+        elif k == ord('r'):
+            game_state = "Running"
+
+
+def insert_new_game():
+    try:
+        conn = mysql.connector.connect(host="localhost", user="root", password="3rQ1eq0z1TLN",
+                                       database="game_db")
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO Game (status) VALUES ('running')")
+        game_id = cursor.lastrowid  # Get the ID of the newly inserted game
+
+        # Assuming you have a way to identify player IDs, insert participants
+        cursor.execute("INSERT INTO Participant (game_id, user_id, player_number) VALUES (%s, %s, 1)",
+                       (game_id, PLAYER_1_ID))
+        cursor.execute("INSERT INTO Participant (game_id, user_id, player_number) VALUES (%s, %s, 2)",
+                       (game_id, PLAYER_2_ID))
+        conn.commit()
+        return game_id
+    except mysql.connector.Error as error:
+        print("Failed to insert new game and participants: {}".format(error))
+        return None
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 def main():

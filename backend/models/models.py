@@ -21,7 +21,8 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     started_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    status = db.Column(db.String(20), nullable=False, default='pending')
+    status = db.Column(db.String(20), nullable=False, default='running')
+    winner = db.Column(db.String(50))
 
     participants = db.relationship('Participant', backref='game', lazy=True)
 
