@@ -39,6 +39,9 @@ The project includes a fully-developed web application framework using Flask, de
 - Responsive design using HTML and Bootstrap
 - Integrated OpenCV video processing
 
+![image](https://github.com/user-attachments/assets/8cf8d74c-3749-4bd5-80ce-4298b9464ade)
+
+
 ## Machine Learning Model Details
 - **Model Architecture**: Convolutional Neural Network (CNN)
 - **Framework**: Keras with SqueezeNet
@@ -55,10 +58,17 @@ The project includes a fully-developed web application framework using Flask, de
 ## Game Modes
 1. **Single-player**: 
    - Player competes against computer
+
+![image](https://github.com/user-attachments/assets/1c261d66-36e5-4cdf-bfb5-c4d2d3ba778f)
+
+
 2. **Multiplayer**: 
    - Two players compete using camera inputs
    - Real-time gesture recognition
    - Winner calculated dynamically
+
+![image](https://github.com/user-attachments/assets/d204577c-ad3b-49da-b802-14649d179bb4)
+
 
 ## Future Enhancements
 - Leaderboard integration
