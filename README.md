@@ -1,101 +1,107 @@
-# FYP_Motion_Detection
+# Gesture Recognition Rock-Paper-Scissors Game
 
+## Project Overview
+This project develops an interactive Rock-Paper-Scissors game utilizing advanced gesture recognition technologies. The application uses machine learning and computer vision to enable players to play the classic game through hand gesture detection via camera input.
+
+## Key Features
+- Real-time gesture recognition using Convolutional Neural Networks (CNNs)
+- Single-player and multiplayer game modes
+- Web-based application with responsive interface
+- Database integration for game statistics
+
+## Technologies Used
+
+### Backend
+- **Language**: Python
+- **Web Framework**: Flask (chosen for lightweight nature and flexibility)
+- **Machine Learning**:
+  - TensorFlow
+  - Keras (with SqueezeNet architecture)
+- **Computer Vision**: OpenCV
+
+### Database
+- **Database Management System**: MySQL
+- **ORM**: SQLAlchemy
+- **Database Features**:
+  - Game state tracking
+  - Player statistics storage
+  - Potential for future leaderboard implementation
+
+### Frontend
+- HTML
+- Bootstrap
+- JavaScript
+
+## Web Application
+The project includes a fully-developed web application framework using Flask, designed to provide a seamless and interactive user experience. The web interface offers:
+- Dynamic route handling
+- Real-time game state rendering
+- Responsive design using HTML and Bootstrap
+- Integrated OpenCV video processing
+
+## Machine Learning Model Details
+- **Model Architecture**: Convolutional Neural Network (CNN)
+- **Framework**: Keras with SqueezeNet
+- **Training Dataset**: 
+  - Four labels: rock, paper, scissors, none
+  - Diverse images covering variations in:
+    - Lighting conditions
+    - Sizes
+    - Skin tones
+- **Data Augmentation**: 
+  - Used ImageDataGenerator
+  - Augmentation techniques: rotation, zoom
+
+## Game Modes
+1. **Single-player**: 
+   - Player competes against computer
+2. **Multiplayer**: 
+   - Two players compete using camera inputs
+   - Real-time gesture recognition
+   - Winner calculated dynamically
+
+## Future Enhancements
+- Leaderboard integration
+- Settings menu
+- In-game chat feature
+- Improved UI/UX
+
+___________________________________________
 
 ## Requirements
 - Python 3
 - Keras
-- Tensorflow
+- TensorFlow
 - OpenCV
-
-___________________________________________________
+- MySQL
 
 ## Installation Guide
-
-1. Clone the repo:
+1. Clone the repository:
 ```sh
 $ git clone https://github.com/Aaminah2611/FYP_Motion_Detection.git
 ```
 
-2. Navigate to the directory:
+2. Navigate to the project directory:
 ```sh
 $ cd rock-paper-scissors
 ```
 
-4. Install dependencies
+3. Install dependencies:
 ```sh
 $ pip install -r requirements.txt
 ```
 
-6. Edit source files
+4. Prepare Machine Learning Model:
+   - Ensure the machine learning model is present
+   - Model should be titled: `Rock-Paper-Scissors.keras`
+   - Place the model in the `Keras` directory
 
-6.1 Navigate to:
-```sh
-venv / Lib / keras_squeezenet/squeezenet.py
-```
-
-Error:
-```sh
-ImportError: cannot import name '_obtain_input_shape' from 'keras.applications.imagenet_utils
-```
-
-change this line of code: 
-```sh
-from keras.applications.imagenet_utils import _obtain_input_shape
-```
-
-[Fix] to this instead: 
-```sh
-from keras_applications.imagenet_utils import _obtain_input_shape
-```
-
-6.2 Error:
-```sh
-ImportError: cannot import name 'warnings' from 'keras.layers'
-```
-
-Fix: Remove the word 'warnings' from the following line of code:
-```sh
-from keras.layers import Input, Convolution2D, MaxPooling2D, Activation, concatenate, Dropout, warnings
-```
-
-6.3 remove this if statement:
-```sh
-        if K.image_data_format() == 'channels_first':
-
-            if K.backend() == 'tensorflow':
-                warnings.warn('You are using the TensorFlow backend, yet you '
-                              'are using the Theano '
-                              'image data format convention '
-                              '(`image_data_format="channels_first"`). '
-                              'For best performance, set '
-                              '`image_data_format="channels_last"` in '
-                              'your Keras config '
-                              'at ~/.keras/keras.json.')
-```
-6.4 Error:
-```sh
-ModuleNotFoundError: No module named 'keras.engine.topology'
-```
-
-Comment out this import: 
-```sh
-# from keras.engine.topology import get_source_inputs
-```
-
-[Fix] add this new import instead:
-```sh
-from keras.utils import get_source_inputs
-```
-
-Ensure machine learning model is present.
-Model should be titled: ```Rock-Paper-Scissors.keras```, and should be in the ```Keras``` directory
-
-Play Singeplayer mode:
-```sh
-$ py singleplayer.py
-```
-
-Play Multiplayer mode:
-```sh
-$ py multiplayer.py
-```
+5. Running the Application:
+   - Single-player mode:
+     ```sh
+     $ py singleplayer.py
+     ```
+   - Multiplayer mode:
+     ```sh
+     $ py multiplayer.py
+     ```
